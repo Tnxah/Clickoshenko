@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 using Random = System.Random;
 using UnityEngine.UI;
-using System.Security.Cryptography.X509Certificates;
+
 using GoogleMobileAds.Api;
 using System.Collections.Generic;
-using UnityEditor;
+
 
 
 public class GameScript : MonoBehaviour
@@ -17,7 +17,7 @@ public class GameScript : MonoBehaviour
     private const string middlePages = "ca-app-pub-3940256099942544/8691691433";
 
     public RectTransform sizeRect;
-    public GameObject peopleField;  
+    public GameObject peopleField;
     public List<GameObject> persons;
     public List<Sprite> sprites;
 
@@ -45,10 +45,22 @@ public class GameScript : MonoBehaviour
 
     private double clickBoost = 1;
 
+    Settings settings;
+
 
     int language = 0; //0 - russian     1 - english
 
     public Text[] menuBarButtonsText;
+    string[,] menuBarButtonsTextArr = {
+        { "магазин", "кричалки" }, {"shop","boosts"}
+    };
+    string[,] boostTextArr = {
+            {"Кричалка Х"," на ", " секунд\n" },{"Boost Х"," for ", " seconds\n" }
+        };
+    string[,] persTexts = {
+        {"за клик\n", "в секунду\n"}, {"per click\n", "per sec\n"}
+    };
+    string[,] costLabelsArr = { { "Улучшение +", "Boost +" }, { "Улучшение +1/сек\n", "Boost +1/sec\n" } };
 
     [Header("Магазин")]
     //public int emps;
@@ -85,17 +97,28 @@ public class GameScript : MonoBehaviour
         boostIndex++;
         if (boostIndex < boostBttns.Length)
         {
-            BoostLabels.text = "Кричалка" + " X" + boosts[boostIndex] + " на " + boostsTimer[boostIndex] + " секунд\n" + boostCosts[boostIndex];
+            BoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
         }
         else
         {
             boostIndex--;
-            BoostLabels.text = "Куплено";
+
+            BoostLabels.text = language == 0 ? "Куплено" : "Sold"; //Нужно изменить если будет больше 2х языков
             canBuyBoost = false;
             shopBttns[3].interactable = false;
         }
         //}
     }
+
+    void startText()
+    {
+        BoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
+        costLabels[2].text = costLabelsArr[1, language] + Math.Round(costs[2], 2);
+        costLabels[0].text = costLabelsArr[0, language] + Math.Round(bonuses[0], 2) + "\n" + Math.Round(costs[0], 2);
+        costLabels[1].text = costLabelsArr[0, language] + Math.Round(bonuses[1], 2) + "\n" + Math.Round(costs[1], 2);
+
+    }
+
 
     public void hideAllpanels()
     {
@@ -113,21 +136,20 @@ public class GameScript : MonoBehaviour
         makeNewPerson(index);
         costs[index] *= 1.4;
         bonuses[index] *= 1.1;
-        costLabels[index].text = "Улучшение +" + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);
+        costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);
         //}     
     }
 
     public void hire(int index)
     {
-        Debug.Log("До " + bonuses[index]++);
+        
         bonuses[index]++;
-        Debug.Log("После " + bonuses[index]++);
+       
         score -= costs[index];
         if (!loading) ups[ups.Length - 1]++;
         costs[index] *= 1.8;
-        costLabels[index].text = "Улучшение +1/сек\n" + Math.Round(costs[index], 2);
+        costLabels[index].text = costLabelsArr[1,language] + Math.Round(costs[index], 2);
     }
-
     IEnumerator pointsPerSec()
     {
         while (true)
@@ -174,6 +196,16 @@ public class GameScript : MonoBehaviour
         }
     }
 
+    void loadLanguage()
+    {
+        if (PlayerPrefs.HasKey("Language"))
+        {
+            settings = JsonUtility.FromJson<Settings>(PlayerPrefs.GetString("Language"));
+            language = settings.language;
+            Debug.Log(language);
+
+        }
+    }
     private void SortChildrenByName()
     {
         GameObject obj = peopleField;
@@ -279,8 +311,13 @@ public class GameScript : MonoBehaviour
         loading = false;
     }
 
+
     private void Awake()
-    {  
+    {
+        loadLanguage();
+        startText();
+        menuBarButtonsText[0].text = menuBarButtonsTextArr[language, 0];
+        menuBarButtonsText[1].text = menuBarButtonsTextArr[language, 1];
         sizeRect = peopleField.GetComponent<RectTransform>();     
         ups = new int[shopBttns.Length - 1];      
     }
@@ -302,9 +339,11 @@ public class GameScript : MonoBehaviour
             }
         }
         scoreText.text = Math.Round(score, 2) + "";
-        pointsPerClick.text = "За клик " + Math.Round(bonus, 2) * clickBoost;
-        pointsPerSecond.text = "В секунду " + Math.Round(bonuses[2], 2);
+        pointsPerClick.text = persTexts[language,0] + Math.Round(bonus, 2) * clickBoost;
+        pointsPerSecond.text = persTexts[language, 1] + Math.Round(bonuses[2], 2);
     }
+    
+    
     public void OnAdLoaded(object sender, System.EventArgs args)
     {
         ad.Show();
