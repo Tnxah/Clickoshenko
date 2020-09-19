@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 263383530}
   - component: {fileID: 263383529}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TribunalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1069,10 +1069,13 @@ MonoBehaviour:
   persons: []
   sprites:
   - {fileID: 21300000, guid: 07d90c92e41de2a438c3e0bd8294fbfc, type: 3}
-  BoostLabels: {fileID: 986229683}
+  ShopBoostLabels: {fileID: 986229683}
   scoreText: {fileID: 567307259}
   pointsPerClick: {fileID: 2047164658}
   pointsPerSecond: {fileID: 1280865121}
+  boostText:
+  - {fileID: 2061626606}
+  - {fileID: 263383529}
   boostBttns:
   - {fileID: 1352102839}
   - {fileID: 1714351934}
@@ -1096,9 +1099,9 @@ MonoBehaviour:
   - {fileID: 1131005276}
   - {fileID: 1331288231}
   costs:
-  - 20
-  - 80
-  - 150
+  - 45
+  - 800
+  - 800
   bonuses:
   - 1
   - 5
@@ -2646,7 +2649,7 @@ GameObject:
   - component: {fileID: 1809069319}
   - component: {fileID: 1809069318}
   m_Layer: 5
-  m_Name: "Buy\"\u0423\u0425\u041E\u0414\u0418\""
+  m_Name: BuyBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3344,7 +3347,7 @@ GameObject:
   - component: {fileID: 2061626607}
   - component: {fileID: 2061626606}
   m_Layer: 5
-  m_Name: Text
+  m_Name: UhodiText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

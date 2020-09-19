@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 using GoogleMobileAds.Api;
 using System.Collections.Generic;
-
-
+using System.IO.IsolatedStorage;
 
 public class GameScript : MonoBehaviour
 {
@@ -21,10 +20,12 @@ public class GameScript : MonoBehaviour
     public List<GameObject> persons;
     public List<Sprite> sprites;
 
-    public Text BoostLabels;
+    public Text ShopBoostLabels;
     public Text scoreText;
     public Text pointsPerClick;
     public Text pointsPerSecond;
+    public List<Text> boostText;
+
 
     int boostIndex = 0;
     bool loading;
@@ -52,7 +53,7 @@ public class GameScript : MonoBehaviour
 
     public Text[] menuBarButtonsText;
     string[,] menuBarButtonsTextArr = {
-        { "магазин", "кричалки" }, {"shop","boosts"}
+        { "Магазин", "Кричалки" }, {"Shop","Boosts"}
     };
     string[,] boostTextArr = {
             {"Кричалка Х"," на ", " секунд\n" },{"Boost Х"," for ", " seconds\n" }
@@ -61,6 +62,9 @@ public class GameScript : MonoBehaviour
         {"за клик\n", "в секунду\n"}, {"per click\n", "per sec\n"}
     };
     string[,] costLabelsArr = { { "Улучшение +", "Boost +" }, { "Улучшение +1/сек\n", "Boost +1/sec\n" } };
+    string[,] boostLabelArr = { {"Уходи", "Трибунал"}, {"Go away", "Tribunal"} };
+    
+
 
     [Header("Магазин")]
     //public int emps;
@@ -85,6 +89,7 @@ public class GameScript : MonoBehaviour
     public void showhideBoosts()
     {
         boostPanel.SetActive(!boostPanel.activeSelf);
+        
     }
 
     public void buyBoost()
@@ -97,13 +102,13 @@ public class GameScript : MonoBehaviour
         boostIndex++;
         if (boostIndex < boostBttns.Length)
         {
-            BoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
+            ShopBoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
         }
         else
         {
             boostIndex--;
 
-            BoostLabels.text = language == 0 ? "Куплено" : "Sold"; //Нужно изменить если будет больше 2х языков
+            ShopBoostLabels.text = language == 0 ? "Куплено" : "Sold"; //Нужно изменить если будет больше 2х языков
             canBuyBoost = false;
             shopBttns[3].interactable = false;
         }
@@ -112,11 +117,12 @@ public class GameScript : MonoBehaviour
 
     void startText()
     {
-        BoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
+        ShopBoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
         costLabels[2].text = costLabelsArr[1, language] + Math.Round(costs[2], 2);
         costLabels[0].text = costLabelsArr[0, language] + Math.Round(bonuses[0], 2) + "\n" + Math.Round(costs[0], 2);
         costLabels[1].text = costLabelsArr[0, language] + Math.Round(bonuses[1], 2) + "\n" + Math.Round(costs[1], 2);
-
+        boostText[0].text = boostLabelArr[language, 0];
+        boostText[1].text = boostLabelArr[language, 1];
     }
 
 
@@ -127,17 +133,15 @@ public class GameScript : MonoBehaviour
     }
 
     public void addBounus(int index)
-    {
-        //if (score >= costs[index])
-        //{
+    {       
         bonus += bonuses[index];
         if (!loading) { ups[index]++; }
         score -= costs[index];
         makeNewPerson(index);
-        costs[index] *= 1.4;
-        bonuses[index] *= 1.1;
-        costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);
-        //}     
+        if(index == 0)costs[index] *= 1.5;
+        else costs[index] *= 1.4;
+        bonuses[index] *= 1.2;
+        costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);    
     }
 
     public void hire(int index)
@@ -158,16 +162,30 @@ public class GameScript : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
+
+    IEnumerator cooldownCounter(int index, float cd)
+    {
+        while (cd>0) {
+            boostText[index].text = cd.ToString();
+            yield return new WaitForSeconds(1);
+            cd--;
+        }
+        boostBttns[index].interactable = true;
+        boostText[index].text = boostLabelArr[language, index];
+    }
+
     IEnumerator bonusTimer(int index)
     {
         boostBttns[index].interactable = false;
 
         clickBoost *= boosts[index];
+        StartCoroutine(cooldownCounter(index, cooldownTimer[index] + boostsTimer[index]));
         yield return new WaitForSeconds(boostsTimer[index]);
         clickBoost /= boosts[index];
 
-        yield return new WaitForSeconds(cooldownTimer[index]);
-        boostBttns[index].interactable = true;
+        
+        //yield return new WaitForSeconds(cooldownTimer[index]);
+        //boostBttns[index].interactable = true;
     }
     IEnumerator checkCosts()
     {
