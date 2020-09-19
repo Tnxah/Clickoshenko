@@ -304,11 +304,11 @@ public class GameScript : MonoBehaviour
                 buyBoost();
                 counter--;
             }
+            score = saves.score + (ups[ups.Length - 1] * (int)(DateTime.Now - DateTime.
+                ParseExact(saves.quitTime, "MM/dd/yyyy HH:mm:ss", null)).TotalSeconds);
+            SortChildrenByName();
         }
-        score = saves.score + (ups[ups.Length - 1] * (int)(DateTime.Now - DateTime.
-            ParseExact(saves.quitTime, "MM/dd/yyyy HH:mm:ss", null)).TotalSeconds);
-        SortChildrenByName();
-        loading = false;
+            loading = false;
     }
 
 
