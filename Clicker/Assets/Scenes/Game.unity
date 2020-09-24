@@ -2957,7 +2957,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 519420030}
         m_TargetAssemblyTypeName: GameScript, Assembly-CSharp
-        m_MethodName: addBounus
+        m_MethodName: doubleBonus
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
