@@ -62,6 +62,7 @@ public class GameScript : MonoBehaviour
         {"за клик\n", "в секунду\n"}, {"per click\n", "per sec\n"}
     };
     string[,] costLabelsArr = { { "Улучшение +", "Boost +" }, { "Улучшение +1/сек\n", "Boost +1/sec\n" } };
+    string[] costLabels2Arr = {  "Увеличить количество протестующих X2\n цена: ", "Protesters X2\n costs: "  };
     string[,] boostLabelArr = { {"Уходи", "Трибунал"}, {"Go away", "Tribunal"} };
     
 
@@ -120,7 +121,7 @@ public class GameScript : MonoBehaviour
         ShopBoostLabels.text = boostTextArr[language, 0] + boosts[boostIndex] + boostTextArr[language, 1] + boostsTimer[boostIndex] + boostTextArr[language, 2] + boostCosts[boostIndex];
         costLabels[2].text = costLabelsArr[1, language] + Math.Round(costs[2], 2);
         costLabels[0].text = costLabelsArr[0, language] + Math.Round(bonuses[0], 2) + "\n" + Math.Round(costs[0], 2);
-        costLabels[1].text = costLabelsArr[0, language] + Math.Round(bonuses[1], 2) + "\n" + Math.Round(costs[1], 2);
+        costLabels[1].text = costLabels2Arr[language] + Math.Round(costs[1], 2);
         boostText[0].text = boostLabelArr[language, 0];
         boostText[1].text = boostLabelArr[language, 1];
     }
@@ -135,13 +136,32 @@ public class GameScript : MonoBehaviour
     public void addBounus(int index)
     {       
         bonus += bonuses[index];
-        if (!loading) { ups[index]++; }
+        if (!loading) {
+            ups[index]++;
+           
+        }
+        makeNewPerson((int)bonuses[index]);
         score -= costs[index];
-        makeNewPerson(index);
-        if(index == 0)costs[index] *= 1.5;
-        else costs[index] *= 1.4;
-        bonuses[index] *= 1.2;
+        
+        costs[index] *= 2.5;
+        bonuses[index] *= 2;
         costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);    
+    }
+
+    public void doubleBonus(int index)
+    {
+        if (!loading) 
+        { 
+            ups[index]++;
+           
+        }
+        makeNewPerson((int)bonus);
+        score -= costs[index];
+        costs[index] *= 8;
+        
+        bonus *= 2;
+
+        costLabels[index].text = costLabels2Arr[language] + Math.Round(costs[index], 2);
     }
 
     public void hire(int index)
@@ -242,9 +262,9 @@ public class GameScript : MonoBehaviour
     }
 
 
-    public void makeNewPerson(int index)
+    public void makeNewPerson(int count)
     {
-        for (int i = (int)bonuses[index]; i > 0; i--)
+        for (int i = count; i > 0; i--)
         {
 
             int x = rnd.Next(-(int)sizeRect.rect.width / 2, (int)sizeRect.rect.width / 2);
@@ -256,6 +276,8 @@ public class GameScript : MonoBehaviour
             var go = new GameObject(y.ToString(), typeof(RectTransform));
             var image = go.AddComponent<Image>();
             SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+            renderer.sortingOrder = 0;
+            renderer.sortingLayerName = "People";
             go.transform.SetParent(peopleField.transform);
             //renderer.sprite = sprites[rnd.Next(sprites.Count)];
             image.sprite = sprites[rnd.Next(sprites.Count)];
@@ -282,6 +304,7 @@ public class GameScript : MonoBehaviour
     private void save()
     {
         saves.score = score;
+        saves.bonus = bonus;
         saves.bonusCounter = bonusCounter;
         saves.ups = ups;
         saves.quitTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
@@ -310,6 +333,12 @@ public class GameScript : MonoBehaviour
                     counter--;
                 }
             }
+            counter = ups[ups.Length - 2];
+            while (counter != 0)
+            {
+                doubleBonus(ups.Length - 2);
+                counter--;
+            }
             counter = ups[ups.Length - 1];
             while (counter != 0)
             {
@@ -324,6 +353,7 @@ public class GameScript : MonoBehaviour
             }
             score = saves.score + (ups[ups.Length - 1] * (int)(DateTime.Now - DateTime.
                 ParseExact(saves.quitTime, "MM/dd/yyyy HH:mm:ss", null)).TotalSeconds);
+            bonus = saves.bonus;
             SortChildrenByName();
         }
             loading = false;
@@ -387,5 +417,6 @@ public class Save
     public int[] ups;
     public int bonusCounter;
     public string quitTime;
+    public double bonus;
     // public DateTime quitTime;
 }
