@@ -8,12 +8,21 @@ using UnityEngine.UI;
 using GoogleMobileAds.Api;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
+using System.Linq;
 
 public class GameScript : MonoBehaviour
 {
+    private const string middlePages =
+        "ca-app-pub-1530005681115600/2652307865";//android
+    //"ca-app-pub-1530005681115600/4112313900";//ios
+
+    private const string bannerKey =
+    "ca-app-pub-1530005681115600/6388372896";//android
+    //"ca-app-pub-1530005681115600/5228270244";//ios
+    //"ca-app-pub-3940256099942544/6300978111";//test banner key 
     public InterstitialAd ad;
+    BannerView banner;
     AdRequest request;
-    private const string middlePages = "ca-app-pub-3940256099942544/8691691433";
 
     public RectTransform sizeRect;
     public GameObject peopleField;
@@ -26,6 +35,8 @@ public class GameScript : MonoBehaviour
     public Text pointsPerSecond;
     public List<Text> boostText;
 
+
+    public GameObject personPrefab;
 
     int boostIndex = 0;
     bool loading;
@@ -145,7 +156,8 @@ public class GameScript : MonoBehaviour
         
         costs[index] *= 2.5;
         bonuses[index] *= 2;
-        costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);    
+        costLabels[index].text = costLabelsArr[0, language] + Math.Round(bonuses[index], 2) + "\n" + Math.Round(costs[index], 2);
+        if (!loading) SortChildrenByName();
     }
 
     public void doubleBonus(int index)
@@ -162,6 +174,7 @@ public class GameScript : MonoBehaviour
         bonus *= 2;
 
         costLabels[index].text = costLabels2Arr[language] + Math.Round(costs[index], 2);
+        //if (!loading) SortChildrenByName();
     }
 
     public void hire(int index)
@@ -271,21 +284,21 @@ public class GameScript : MonoBehaviour
             int y = rnd.Next(-(int)sizeRect.rect.height / 2, (int)sizeRect.rect.height / 2);
 
 
+            var go = Instantiate(personPrefab, new Vector2(x,y), Quaternion.identity);
 
-
-            var go = new GameObject(y.ToString(), typeof(RectTransform));
-            var image = go.AddComponent<Image>();
-            SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-            renderer.sortingOrder = 0;
-            renderer.sortingLayerName = "People";
+            ////var go = new GameObject(y.ToString(), typeof(RectTransform));
+            ////var image = go.AddComponent<Image>();
+            //SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+            //renderer.sortingOrder = 0;
+            //renderer.sortingLayerName = "People";
             go.transform.SetParent(peopleField.transform);
             //renderer.sprite = sprites[rnd.Next(sprites.Count)];
-            image.sprite = sprites[rnd.Next(sprites.Count)];
-            go.transform.localPosition = new Vector3(x, y, 100);
-            go.transform.localScale = new Vector3(1, 1, 1);
+           //// image.sprite = sprites[rnd.Next(sprites.Count)];
+           //// go.transform.localPosition = new Vector3(x, y, 100);
+           //// go.transform.localScale = new Vector3(1, 1, 1);
             persons.Add(go);
         }
-        if (!loading) SortChildrenByName();
+        
     }
 
     public void boostActivate(int index)
@@ -311,7 +324,7 @@ public class GameScript : MonoBehaviour
         Debug.Log("OnQuit " + saves.quitTime);
         PlayerPrefs.SetString("SAVES", JsonUtility.ToJson(saves));
     }
-    private void load()
+    IEnumerator load()
     {
         loading = true;
 
@@ -353,15 +366,24 @@ public class GameScript : MonoBehaviour
             }
             score = saves.score + (ups[ups.Length - 1] * (int)(DateTime.Now - DateTime.
                 ParseExact(saves.quitTime, "MM/dd/yyyy HH:mm:ss", null)).TotalSeconds);
-            bonus = saves.bonus;
+            if(saves.bonus != 0)bonus = saves.bonus;
             SortChildrenByName();
         }
             loading = false;
+        yield return new WaitForSeconds(0);
     }
 
 
     private void Awake()
     {
+        banner = new BannerView(bannerKey, AdSize.Banner, AdPosition.Bottom);
+        request = new AdRequest.Builder().Build();
+        ad = new InterstitialAd(middlePages);
+        request = new AdRequest.Builder().Build();
+        banner.LoadAd(request);
+        ad.LoadAd(request);
+        ad.OnAdLoaded += OnAdLoaded;
+
         loadLanguage();
         startText();
         menuBarButtonsText[0].text = menuBarButtonsTextArr[language, 0];
@@ -371,7 +393,7 @@ public class GameScript : MonoBehaviour
     }
     private void Start()
     {
-        load();
+        StartCoroutine(load());
         StartCoroutine(pointsPerSec());
         StartCoroutine(checkCosts());
     }
@@ -406,6 +428,7 @@ public class GameScript : MonoBehaviour
         {
             save();
         }
+
     }
 
 }

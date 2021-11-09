@@ -63,10 +63,9 @@ public class Menu : MonoBehaviour
     {
 
         
-        banner.LoadAd(request);
-        ad.LoadAd(request);
-        ad.OnAdLoaded += OnAdLoaded;
-       
+       // banner.LoadAd(request);
+      //  ad.LoadAd(request);
+       // ad.OnAdLoaded += OnAdLoaded;
 
 
 
