@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private float _score;
-    private float _clickValue = 1;
+    private float _clickValue = 1000;
     private float _perSecondValue = 0;
 
     public static GameManager instance;

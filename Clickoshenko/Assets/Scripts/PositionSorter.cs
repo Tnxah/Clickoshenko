@@ -6,6 +6,6 @@ public class PositionSorter : MonoBehaviour
 {
     private void FixedUpdate()
     {
-        GetComponent<SpriteRenderer>().sortingOrder = -(int)(transform.localPosition.y * 1000);
+        GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.localPosition.y;
     }
 }
