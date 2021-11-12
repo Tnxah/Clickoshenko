@@ -50,7 +50,7 @@ public class CharactersController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int delta = (int)GameManager.instance.GetClickValue() - characters.Count;
+        int delta = (int)GameManager.instance.GetPerClickValue() - characters.Count;
         
         if (delta > 0)
         {

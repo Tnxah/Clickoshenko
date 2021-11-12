@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private float _score;
-    private float _clickValue = 1000;
+    private float _perClickValue = 1;
     private float _perSecondValue = 0;
 
     public static GameManager instance;
@@ -33,17 +33,42 @@ public class GameManager : MonoBehaviour
 
     private void IncreaseScore()
     {
-        _score += _clickValue;
+        _score += _perClickValue;
+    }
+    
+    public void AddToScore(float value)
+    {
+        _score += value;
     }
 
-    public string GetScore()
+    public void SubtractFromScore(float value)
     {
-        return ((int)_score).ToString();
+        _score -= value;
     }
 
-    public float GetClickValue()
+
+    public float GetScore()
     {
-        return _clickValue;
+        return _score;
+    }
+
+    public float GetPerClickValue()
+    {
+        return _perClickValue;
+    }
+    public float GetPerSecondValue()
+    {
+        return _perSecondValue;
+    }
+
+    public void AddToPCV(float value)
+    {
+        _perClickValue += value;
+    }
+
+    public void SubtractFromPCV(float value)
+    {
+        _perClickValue -= value;
     }
 
 }

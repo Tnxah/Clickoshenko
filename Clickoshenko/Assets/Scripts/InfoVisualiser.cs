@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class InfoVisualiser : MonoBehaviour
 {
-    public TextMeshProUGUI Score;
+    public TextMeshProUGUI score;
+    public TextMeshProUGUI perSecondValue;
+    public TextMeshProUGUI perClickValue;
 
 
     private void FixedUpdate()
     {
-        Score.text = GameManager.instance.GetScore();
+        score.text = ((int)GameManager.instance.GetScore()).ToString();
+        //perClickValue.text = (GameManager.instance.GetPerClickValue()).ToString();
+        //perSecondValue.text = (GameManager.instance.GetPerSecondValue()).ToString();
     }
 }
