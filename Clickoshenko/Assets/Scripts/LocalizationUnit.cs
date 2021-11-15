@@ -12,6 +12,7 @@ public class LocalizationUnit : MonoBehaviour
     public string polish;
 
     public bool shouldBeReplaced = false;
+    public bool dynamicInfo = false;
 
     TextMeshProUGUI textMeshPro;
 
@@ -22,6 +23,10 @@ public class LocalizationUnit : MonoBehaviour
 
         textMeshPro = GetComponent<TextMeshProUGUI>();
         LocalizationManager.instance.onLanguageChange += SetText;
+        if (dynamicInfo)
+        {
+            GameManager.instance.infoVisualizer.onTextChanges += SetText;
+        }
         SetText();
     }
 
@@ -34,7 +39,8 @@ public class LocalizationUnit : MonoBehaviour
 
     public void SetText()
     {
-        if (textList[LocalizationManager.instance.currentLanguage] == null || textList[LocalizationManager.instance.currentLanguage] == "")
+        if (textList[LocalizationManager.instance.currentLanguage] == null ||
+            textList[LocalizationManager.instance.currentLanguage] == "")
         {
             textMeshPro.text = textList[SystemLanguage.English];
         }
@@ -45,7 +51,6 @@ public class LocalizationUnit : MonoBehaviour
 
         if (shouldBeReplaced)
         {
-            print("TEST");
             textMeshPro.text = GameManager.instance.infoVisualizer.shopButtonVisualizer(textMeshPro.text);
         }
     }

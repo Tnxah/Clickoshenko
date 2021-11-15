@@ -65,7 +65,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
         
         if (Advertisement.IsReady(bannerID))
         {
-            Advertisement.Banner.SetPosition(BannerPosition.CENTER);
+            Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
             Advertisement.Banner.Show(bannerID);
         }
         else
@@ -113,5 +113,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
             onRewardedAdSuccess.Invoke();
             //***********
         }
+    }
+
+    public bool isRewardedReady()
+    {
+        return Advertisement.IsReady(rewardedID);
     }
 }

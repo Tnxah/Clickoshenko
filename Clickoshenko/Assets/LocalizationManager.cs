@@ -31,17 +31,17 @@ public class LocalizationManager : MonoBehaviour
     public delegate void RefreshLanguage();
     public RefreshLanguage onLanguageChange;
 
-    public void changeLanguageTo()
+    public void changeLanguageTo(SystemLanguage language)
     {
-        SystemLanguage language = SystemLanguage.Russian;
+        //SystemLanguage language = SystemLanguage.Russian; //only for test
         if (availableLanguages.Contains(language))
         {
             currentLanguage = language;
-            onLanguageChange.Invoke();
+            onLanguageChange?.Invoke();
         }
         else
         {
-            print("This language (" + language + ") is not supported yed");
+            print("This language (" + language + ") is not supported yet");
         }
     }
 }

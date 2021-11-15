@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InfoVisualizer : MonoBehaviour
@@ -7,6 +8,8 @@ public class InfoVisualizer : MonoBehaviour
     public TextMeshProUGUI perSecondValue;
     public TextMeshProUGUI perClickValue;
 
+    public delegate void DynamicObjects();
+    public DynamicObjects onTextChanges;
 
     private void FixedUpdate()
     {
@@ -20,7 +23,15 @@ public class InfoVisualizer : MonoBehaviour
 
         if (text.Contains("$clickprice$"))
         {
-            text = text.Replace("$clickprice$", Shop.instance.clickCost.ToString());
+            if (Shop.instance.clickCounterToWatch == 0)
+            {
+                text = text.Replace("$clickprice$", "▷");
+            }
+            else
+            {
+                text = text.Replace("$clickprice$", Shop.instance.clickCost.ToString());
+            }
+            
         }
         if (text.Contains("$clickweight$"))
         {
