@@ -11,6 +11,9 @@ public class Shop : MonoBehaviour
     public float clickWeightRule = 1.5f;
     public float clickCostRule = 2.1f;
 
+    public float x2Cost = 2000f;
+    public float x2CostRule = 6f;
+
     private void Start()
     {
         if (instance == null)
@@ -31,8 +34,18 @@ public class Shop : MonoBehaviour
             clickWeight *= clickWeightRule;
             clickCost *= clickCostRule;
         }
-        
+    }
 
+    public void DoubleMultiiplier()
+    {
+
+        if (GameManager.instance.GetScore() >= x2Cost)
+        {
+            GameManager.instance.SubtractFromScore(x2Cost);
+            GameManager.instance.AddToPCV(GameManager.instance.GetPerClickValue());
+
+            x2Cost *= x2CostRule;
+        }
     }
 
 }

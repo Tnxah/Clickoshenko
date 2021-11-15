@@ -29,18 +29,21 @@ public class CharactersController : MonoBehaviour
     public void CreateCharacter(int num)
     {
         var spawnZone = MapController.instance.currentMap.spawnZone.gameObject;
-        var rectTransform = spawnZone.gameObject.GetComponent<RectTransform>();
+        var rectTransform = spawnZone.gameObject.GetComponent<SpriteRenderer>();
 
-        int width = (int)rectTransform.rect.width;
-        int height = (int)rectTransform.rect.height;
-        
+        int width = (int)rectTransform.bounds.size.x;
+        int height = (int)rectTransform.bounds.size.y;
+        print(width + "/" + height);
         for (int i = 0; i < num; i++)
         {
-            Vector3 rndPosition = new Vector3(rnd.Next(-width/2, width/2), rnd.Next(-height/2, height/2), 0);
+            Vector3 rndPosition = new Vector3(rnd.Next(-width/2, width/2), rnd.Next(-height/2, height/2), 30);
+            print(rndPosition);
             GameObject newCharacter = Instantiate(characterPrefab);
+           
             newCharacter.transform.parent = spawnZone.transform;
+            newCharacter.transform.localPosition = Vector3.zero;
+            newCharacter.transform.position += rndPosition;
             
-            newCharacter.transform.localPosition = rndPosition;
 
             characters.Add(newCharacter);
         }

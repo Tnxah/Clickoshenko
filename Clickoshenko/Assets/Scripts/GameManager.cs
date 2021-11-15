@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private float _score;
+    private float _score = 0;
     private float _perClickValue = 1;
     private float _perSecondValue = 0;
 
