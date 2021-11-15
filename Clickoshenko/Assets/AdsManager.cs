@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -17,6 +18,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     string rewardedId = "Rewarded_iOS";
     string bannerId = "Banner_iOS";
 #endif
+
+    public TextMeshProUGUI debug;
 
     Action onRewardedAdSuccess;
     public static AdsManager instance;
@@ -39,6 +42,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     {
         if (Advertisement.IsReady(interstitialId))
         {
+            
             Advertisement.Show(interstitialId);
         }
     }
@@ -61,7 +65,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
         
         if (Advertisement.IsReady(bannerID))
         {
-            Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
+            Advertisement.Banner.SetPosition(BannerPosition.CENTER);
             Advertisement.Banner.Show(bannerID);
         }
         else
@@ -84,16 +88,19 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsReady(string placementId)
     {
         print("ADS ARE READY");
+        
     }
 
     public void OnUnityAdsDidError(string message)
     {
         print("ERROR " + message);
+        
     }
 
     public void OnUnityAdsDidStart(string placementId)
     {
         print("VIDEO STARTED");
+        
     }
 
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)

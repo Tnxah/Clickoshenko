@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private float _perSecondValue = 0;
 
     public static GameManager instance;
-
+    public InfoVisualizer infoVisualizer;
     public OnClick onClick;
 
 
@@ -18,17 +18,12 @@ public class GameManager : MonoBehaviour
         if (onClick.clickAction == null)
         {
             onClick.clickAction = IncreaseScore;
-        }        
-    }
-
-    private void Start()
-    {
-       
-
+        }
         if (instance == null)
         {
             instance = this;
         }
+        infoVisualizer = GetComponent<InfoVisualizer>();
     }
 
     private void IncreaseScore()

@@ -14,7 +14,7 @@ public class Shop : MonoBehaviour
     public float x2Cost = 2000f;
     public float x2CostRule = 6f;
 
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
         {
