@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private float _score = 1000000;
+    private float _score = 0;
     private float _perClickValue = 1;
     private float _perSecondValue = 0;
 
@@ -24,21 +24,43 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         infoVisualizer = GetComponent<InfoVisualizer>();
+
+        LoadScore();
+    }
+
+    public void LoadScore()
+    {
+       ScoreData data = SaveSystem.LoadScore();
+        if (data == null)
+        {
+            return;
+        }
+        _score = data.score;
+        _perClickValue = data.perClickValue;
+        _perSecondValue = data.perSecondValue;
+    }
+
+    public void SaveScore()
+    {
+        SaveSystem.SaveScore();
     }
 
     private void IncreaseScore()
     {
         _score += _perClickValue;
+        SaveScore();
     }
     
     public void AddToScore(float value)
     {
         _score += value;
+        SaveScore();
     }
 
     public void SubtractFromScore(float value)
     {
         _score -= value;
+        SaveScore();
     }
 
 
@@ -59,11 +81,13 @@ public class GameManager : MonoBehaviour
     public void AddToPCV(float value)
     {
         _perClickValue += value;
+        SaveScore();
     }
 
     public void SubtractFromPCV(float value)
     {
         _perClickValue -= value;
+        SaveScore();
     }
 
 }

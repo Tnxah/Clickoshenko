@@ -17,7 +17,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     string interstitialId = "Interstitial_iOS";
     string rewardedId = "Rewarded_iOS";
     string bannerId = "Banner_iOS";
-#endif
+#endif 
 
     public TextMeshProUGUI debug;
 

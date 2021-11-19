@@ -19,8 +19,6 @@ public class LocalizationManager : MonoBehaviour
 
     private void Start()
     {
-        
-
         availableLanguages.Add(SystemLanguage.English);
         availableLanguages.Add(SystemLanguage.Russian);
         availableLanguages.Add(SystemLanguage.Polish);
@@ -44,4 +42,18 @@ public class LocalizationManager : MonoBehaviour
             print("This language (" + language + ") is not supported yet");
         }
     }
+
+    public string GetRewarded()
+    {
+        return ConstantDictionary.rewarded[currentLanguage];
+    }
+}
+
+public class ConstantDictionary
+{
+    public static Dictionary<SystemLanguage, string> rewarded = new Dictionary<SystemLanguage, string>
+    {   {SystemLanguage.English, "Watch video" },
+        {SystemLanguage.Russian, "Посмотреть видео" },
+        {SystemLanguage.Polish, "Oglądać filmik" }
+    };
 }

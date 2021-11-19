@@ -23,10 +23,10 @@ public class LocalizationUnit : MonoBehaviour
 
         textMeshPro = GetComponent<TextMeshProUGUI>();
         LocalizationManager.instance.onLanguageChange += SetText;
-        if (dynamicInfo)
-        {
-            GameManager.instance.infoVisualizer.onTextChanges += SetText;
-        }
+        //if (dynamicInfo)
+        //{
+        //    GameManager.instance.infoVisualizer.onTextChanges += SetText;
+        //}
         SetText();
     }
 
@@ -49,9 +49,9 @@ public class LocalizationUnit : MonoBehaviour
             textMeshPro.text = textList[LocalizationManager.instance.currentLanguage];
         }
 
-        if (shouldBeReplaced)
-        {
-            textMeshPro.text = GameManager.instance.infoVisualizer.shopButtonVisualizer(textMeshPro.text);
-        }
+        //if (shouldBeReplaced)
+        //{
+        //    textMeshPro.text = GameManager.instance.infoVisualizer.shopButtonVisualizer(textMeshPro.text);
+        //}
     }
 }

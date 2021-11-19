@@ -18,29 +18,29 @@ public class InfoVisualizer : MonoBehaviour
         //perSecondValue.text = (GameManager.instance.GetPerSecondValue()).ToString();
     }
 
-    public string shopButtonVisualizer(string text)
-    {
+    //public string shopButtonVisualizer(string text)
+    //{
 
-        if (text.Contains("$clickprice$"))
-        {
-            if (Shop.instance.clickCounterToWatch == 0)
-            {
-                text = text.Replace("$clickprice$", "▷");
-            }
-            else
-            {
-                text = text.Replace("$clickprice$", Shop.instance.clickCost.ToString());
-            }
+    //    if (text.Contains("$clickprice$"))
+    //    {
+    //        if (Shop.instance.clickCounterToWatch == 0)
+    //        {
+    //            text = text.Replace("$clickprice$", "▷");
+    //        }
+    //        else
+    //        {
+    //            text = text.Replace("$clickprice$", Shop.instance.clickCost.ToString());
+    //        }
             
-        }
-        if (text.Contains("$clickweight$"))
-        {
-            text = text.Replace("$clickweight$", Shop.instance.clickWeight.ToString());
-        }
-        if (text.Contains("$doubleprice$"))
-        {
-            text = text.Replace("$doubleprice$", Shop.instance.x2Cost.ToString());
-        }
-        return text;
-    }
+    //    }
+    //    if (text.Contains("$clickweight$"))
+    //    {
+    //        text = text.Replace("$clickweight$", Shop.instance.clickWeight.ToString());
+    //    }
+    //    if (text.Contains("$doubleprice$"))
+    //    {
+    //        text = text.Replace("$doubleprice$", Shop.instance.x2Cost.ToString());
+    //    }
+    //    return text;
+    //}
 }
