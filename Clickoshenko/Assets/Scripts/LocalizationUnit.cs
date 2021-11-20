@@ -39,7 +39,7 @@ public class LocalizationUnit : MonoBehaviour
 
     public void SetText()
     {
-        if (textList[LocalizationManager.instance.currentLanguage] == null ||
+        if (!textList.ContainsKey(LocalizationManager.instance.currentLanguage) || 
             textList[LocalizationManager.instance.currentLanguage] == "")
         {
             textMeshPro.text = textList[SystemLanguage.English];

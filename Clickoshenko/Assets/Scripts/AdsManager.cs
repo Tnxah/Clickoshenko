@@ -5,15 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdsManager : MonoBehaviour, IUnityAdsListener
+public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsListener
 {
 #if UNITY_ANDROID
-    string gameID = "4452331";
+    string gameID = "4452907";
     string interstitialId = "Interstitial_Android";
     string rewardedID = "Rewarded_Android";
     string bannerID = "Banner_Android";
 #else
-    string gameId = "4452330";
+    string gameId = "4452906";
     string interstitialId = "Interstitial_iOS";
     string rewardedId = "Rewarded_iOS";
     string bannerId = "Banner_iOS";
@@ -24,7 +24,15 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     Action onRewardedAdSuccess;
     public static AdsManager instance;
 
+    private void Awake()
+    {
+#if UNITY_EDITOR
+        return;
+        #endif
+        Advertisement.Initialize(gameID, false, false, this);
 
+
+    }
     void Start()
     {
         if (instance == null)
@@ -32,9 +40,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
             instance = this;
         }
 
-        Advertisement.Initialize(gameID);
+        
         Advertisement.AddListener(this);
-        ShowBanner();
+        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
+        
     }
 
    
@@ -62,16 +71,19 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
 
     public void ShowBanner()
     {
-        
-        if (Advertisement.IsReady(bannerID))
+
+        BannerOptions options = new BannerOptions
         {
-            Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-            Advertisement.Banner.Show(bannerID);
-        }
-        else
-        {
-            StartCoroutine(BannerChecker());
-        }
+            showCallback = OnBannerShown
+        };
+
+        Advertisement.Banner.Show(bannerID, options);        
+    }
+
+    private void OnBannerShown()
+    {
+        debug.text += "Banner shown";
+        print("Banner shown");
     }
 
     public void HideBanner()
@@ -83,6 +95,36 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     {
         yield return new WaitUntil(() => Advertisement.IsReady(bannerID));
         ShowBanner();
+    }
+
+    public void LoadBanner()
+    {
+        debug.text += "Banner start loading";
+        print("Banner start loading");
+        BannerLoadOptions options = new BannerLoadOptions
+        {
+            loadCallback = OnBannerLoaded,
+            errorCallback = OnBannerError
+        };
+
+        Advertisement.Banner.Load(bannerID, options);
+    }
+
+    void OnBannerLoaded()
+    {
+        Debug.Log("Banner loaded");
+        debug.text += "Banner loaded";
+        ShowBanner();
+
+    }
+
+    
+    void OnBannerError(string message)
+    {
+        Debug.Log($"Banner Error: {message}");
+        debug.text += $"Banner Error: {message}";
+        
+
     }
 
     public void OnUnityAdsReady(string placementId)
@@ -118,5 +160,18 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     public bool isRewardedReady()
     {
         return Advertisement.IsReady(rewardedID);
+    }
+
+    public void OnInitializationComplete()
+    {
+        Debug.Log("Unity Ads initialization complete.");
+        debug.text += "Unity Ads initialization complete.";
+        LoadBanner();
+    }
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+        debug.text += $"Unity Ads Initialization Failed: {error.ToString()} - {message}";
     }
 }

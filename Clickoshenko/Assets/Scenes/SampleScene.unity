@@ -414,7 +414,6 @@ MonoBehaviour:
   value: 2
   priceMultiplier: 2.1
   valueMultiplier: 1.5
-  tempPrice: 0
   counterToAd: 5
   numberToAd: 5
   videoAgainstMoney: 0
@@ -447,9 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85257a5a5bcc0e458725c6d56d7d374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x2Cost: 2000
-  x2CostRule: 8
-  doubleCounterToWatch: 10
 --- !u!4 &357867485
 Transform:
   m_ObjectHideFlags: 0
@@ -657,7 +653,6 @@ MonoBehaviour:
   value: 0
   priceMultiplier: 3.5
   valueMultiplier: 0
-  tempPrice: 0
   counterToAd: 10
   numberToAd: 10
   videoAgainstMoney: 0
@@ -743,7 +738,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1413093212}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LocalizationManager, Assembly-CSharp
         m_MethodName: changeLanguageTo
         m_Mode: 1
@@ -1144,9 +1139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98d01138fa5371448ae4f38299dc837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  russian: 
+  russian: "\u0426\u0435\u043D\u0430: $price$ X2 \u0437\u0430 \u043A\u043B\u0438\u043A"
   english: 'Price: $price$ X2 per click'
-  polish: 
+  polish: 'Cena: $price$ X2 na klik'
   shouldBeReplaced: 1
   dynamicInfo: 1
 --- !u!1 &798667936
@@ -1684,7 +1679,6 @@ GameObject:
   - component: {fileID: 1413093209}
   - component: {fileID: 1413093210}
   - component: {fileID: 1413093211}
-  - component: {fileID: 1413093212}
   - component: {fileID: 1413093213}
   - component: {fileID: 1413093214}
   m_Layer: 0
@@ -1778,20 +1772,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopPanel: {fileID: 1667661711}
   menuButtonsPanel: {fileID: 1563935289}
---- !u!114 &1413093212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413093205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e7e36f4f98a8b841aeb5883c0f48817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLanguage: 10
-  availableLanguages: 
 --- !u!114 &1413093213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2299,9 +2279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98d01138fa5371448ae4f38299dc837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  russian: 
+  russian: "\u0426\u0435\u043D\u0430: $price$ +$value$ \u0437\u0430 \u043A\u043B\u0438\u043A"
   english: 'Price: $price$ +$value$ per click'
-  polish: 
+  polish: 'Cena: $price$ +$value$ na klik'
   shouldBeReplaced: 1
   dynamicInfo: 1
 --- !u!1 &1727678143
@@ -2321,7 +2301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1727678144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2336,9 +2316,9 @@ RectTransform:
   m_Father: {fileID: 1228892173}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -826}
   m_SizeDelta: {x: 366.849, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1727678145
@@ -2361,7 +2341,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: DEBUG PLACEHOLDER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2424,7 +2404,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -564.1939, z: 0, w: -412.29544}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3036,3 +3016,64 @@ MonoBehaviour:
   polish: Sklep
   shouldBeReplaced: 0
   dynamicInfo: 0
+--- !u!1001 &7840427595918748104
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3548773156870989552, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: currentLanguage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065519907545341882, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_Name
+      value: Localization Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 188.13077
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 453.1993
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1183.488
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490325896411185412, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f3909ff6be59fec4bad6cc95acdae7d6, type: 3}

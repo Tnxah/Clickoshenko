@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
         SaveScore();
     }
 
-
     public float GetScore()
     {
         return _score;

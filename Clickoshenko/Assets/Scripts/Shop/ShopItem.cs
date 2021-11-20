@@ -9,15 +9,14 @@ public class ShopItem : MonoBehaviour
     public float priceMultiplier;
     public float valueMultiplier;
 
-    public float tempPrice;
-
     public int counterToAd;
     public int numberToAd;
     public bool videoAgainstMoney;
 
     private void Start()
     {
-        eachBuy();
+        LoadShopItem();
+        UIShopManager.instance.PrepareText(this);
     }
 
     public virtual void PriceIncrease()
@@ -48,7 +47,27 @@ public class ShopItem : MonoBehaviour
             counterToAd = numberToAd;
         }
         UIShopManager.instance.PrepareText(this);
+        SaveShopItem();
     }
 
 
+    public void LoadShopItem()
+    {
+        ShopItemData data = SaveSystem.LoadShopItem(this.name);
+        if (data == null)
+        {
+            return;
+        }
+        price = data.price;
+        value = data.value;
+        priceMultiplier = data.priceMultiplier;
+        counterToAd = data.counterToAd;
+        numberToAd = data.numberToAd;
+        videoAgainstMoney = data.videoAgainstMoney;
+    }
+
+    public void SaveShopItem()
+    {
+        SaveSystem.SaveShopItem(this);
+    }
 }

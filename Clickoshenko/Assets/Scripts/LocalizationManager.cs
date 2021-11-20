@@ -15,21 +15,29 @@ public class LocalizationManager : MonoBehaviour
         {
             instance = this;
         }
+        if (GameObject.FindGameObjectsWithTag("Localization").Length > 1)
+        {
+            GameObject.Destroy(gameObject);
+        }
+
+        GameObject.DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
+        
+
         availableLanguages.Add(SystemLanguage.English);
         availableLanguages.Add(SystemLanguage.Russian);
         availableLanguages.Add(SystemLanguage.Polish);
 
-        currentLanguage = SystemLanguage.English;
+        //currentLanguage = SystemLanguage.English;
     }
     
     public delegate void RefreshLanguage();
     public RefreshLanguage onLanguageChange;
 
-    public void changeLanguageTo(SystemLanguage language)
+    public void ChangeLanguageTo(SystemLanguage language)
     {
         //SystemLanguage language = SystemLanguage.Russian; //only for test
         if (availableLanguages.Contains(language))

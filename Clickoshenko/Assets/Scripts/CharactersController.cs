@@ -26,18 +26,16 @@ public class CharactersController : MonoBehaviour
     }
 
 
-    public void CreateCharacter(int num)
+    public IEnumerator CreateCharacter(int num)
     {
         var spawnZone = MapController.instance.currentMap.spawnZone.gameObject;
         var rectTransform = spawnZone.gameObject.GetComponent<SpriteRenderer>();
 
         float width = rectTransform.bounds.size.x;
         float height = rectTransform.bounds.size.y;
-        print(width + "/" + height);
         for (int i = 0; i < num; i++)
         {
             Vector3 rndPosition = new Vector3(Random.Range(-width/2f, width/2f), Random.Range(-height/2f, height/2f), 30);
-            print(rndPosition);
             GameObject newCharacter = Instantiate(characterPrefab);
            
             newCharacter.transform.parent = spawnZone.transform;
@@ -47,6 +45,7 @@ public class CharactersController : MonoBehaviour
 
             characters.Add(newCharacter);
         }
+        yield return null;
     }
 
 
@@ -57,7 +56,7 @@ public class CharactersController : MonoBehaviour
         
         if (delta > 0)
         {
-            CreateCharacter(delta);
+            StartCoroutine(CreateCharacter(delta));
         }
     }
 }
