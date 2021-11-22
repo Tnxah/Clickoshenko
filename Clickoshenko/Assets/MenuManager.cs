@@ -14,4 +14,9 @@ public class MenuManager : MonoBehaviour
     {
         panel.SetActive(!panel.activeSelf);
     }
+
+    public void MuteUnmute()
+    {
+        AudioController.instance.MuteUnmute();
+    }
 }

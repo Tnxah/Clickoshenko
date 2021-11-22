@@ -8,6 +8,7 @@ public class UIShopManager : MonoBehaviour
 {
     public GameObject perClickButton;
     public GameObject doubleButton;
+    public GameObject perSecondButton;
 
     public static UIShopManager instance;
     private void Awake()
@@ -22,6 +23,7 @@ public class UIShopManager : MonoBehaviour
     {
         CheckAvailability(perClickButton, perClickButton.GetComponent<ShopItem>());
         CheckAvailability(doubleButton, doubleButton.GetComponent<ShopItem>());
+        CheckAvailability(perSecondButton, perSecondButton.GetComponent<ShopItem>());
     }
 
     private void CheckAvailability(GameObject button, ShopItem shopItem)

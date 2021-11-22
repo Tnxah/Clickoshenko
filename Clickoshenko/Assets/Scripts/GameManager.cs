@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private float _score = 0;
+    public float _score = 0;
     private float _perClickValue = 1;
-    private float _perSecondValue = 0;
+    public float _perSecondValue = 0;
 
     public static GameManager instance;
     public InfoVisualizer infoVisualizer;
     public OnClick onClick;
-
-
     private void Awake()
     {
         if (onClick.clickAction == null)
@@ -38,6 +37,19 @@ public class GameManager : MonoBehaviour
         _score = data.score;
         _perClickValue = data.perClickValue;
         _perSecondValue = data.perSecondValue;
+
+        AddToScore(CalculateAFKScore(data.exitTime));
+    }
+
+    private float CalculateAFKScore(DateTime exitTime)
+    {
+        DateTime dtNow = DateTime.Now;
+
+        TimeSpan result = dtNow.Subtract(exitTime);
+
+        int seconds = Convert.ToInt32(result.TotalSeconds);
+        
+        return seconds * _perSecondValue;
     }
 
     public void SaveScore()
@@ -86,6 +98,11 @@ public class GameManager : MonoBehaviour
     public void SubtractFromPCV(float value)
     {
         _perClickValue -= value;
+        SaveScore();
+    }
+
+    public void AddToPSV(float value) {
+        _perSecondValue += value;
         SaveScore();
     }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Localization
   - AudioController
+  - ApplicationSystem
   layers:
   - Default
   - TransparentFX

@@ -14,8 +14,8 @@ public class Time : MonoBehaviour
     {
         while (true)
         {
-GameManager.instance.AddToScore(GameManager.instance.GetPerSecondValue());
-        yield return new WaitForSeconds(1);
+            GameManager.instance.AddToScore(GameManager.instance.GetPerSecondValue());
+            yield return new WaitForSeconds(1);
         }
         
     }

@@ -27,7 +27,6 @@ public class SaveSystem : MonoBehaviour
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(scorePath, FileMode.Open);
-            print(scorePath);
             ScoreData data = formatter.Deserialize(stream) as ScoreData;
 
             stream.Close();

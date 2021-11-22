@@ -8,10 +8,12 @@ public class ScoreData
     public float perClickValue;
     public float perSecondValue;
 
+    public DateTime exitTime;
     public ScoreData()
     {
         score = GameManager.instance.GetScore();
         perClickValue = GameManager.instance.GetPerClickValue();
         perSecondValue = GameManager.instance.GetPerSecondValue();
+        exitTime = DateTime.Now;
     }
 }
