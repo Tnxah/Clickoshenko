@@ -1288,7 +1288,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 372917220}
   m_OnClick:
     m_PersistentCalls:
@@ -1374,6 +1374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newVersionPanel: {fileID: 194708057}
   text: {fileID: 1027581655}
+  playButton: {fileID: 372917219}
 --- !u!4 &440943893
 Transform:
   m_ObjectHideFlags: 0

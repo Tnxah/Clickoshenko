@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject newVersionPanel;
     public TextMeshProUGUI text;
 
+    public Button playButton;
     private void Start()
     {
         StartCoroutine(CheckForUpdated());
@@ -24,6 +26,8 @@ public class MenuManager : MonoBehaviour
     }
     IEnumerator CheckForUpdated()
     {
+        yield return new WaitUntil(()=> RemoteConfig.instance.finished);
+        playButton.interactable = true;
         
         yield return new WaitUntil(() => RemoteConfig.instance.IsNewVersion() == true);
         
@@ -51,4 +55,5 @@ public class MenuManager : MonoBehaviour
     {
         AudioController.instance.MuteUnmute();
     }
+
 }

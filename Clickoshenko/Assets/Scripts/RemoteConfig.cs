@@ -30,6 +30,7 @@ public class RemoteConfig : MonoBehaviour
     public string version;
 
     public bool newData = false;
+    public bool finished = false;
 
     public static RemoteConfig instance;
     void Awake()
@@ -43,10 +44,14 @@ public class RemoteConfig : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Thread.Sleep(1500);
-
-        ConfigManager.FetchCompleted += ApplyRemoteSettings;
+        
+        
         ConfigManager.FetchConfigs<userAttributes, appAttributes>(new userAttributes(), new appAttributes());
+    }
+
+    public void Start()
+    {
+        ConfigManager.FetchCompleted += ApplyRemoteSettings;
     }
 
     void ApplyRemoteSettings(ConfigResponse configResponse)
@@ -69,7 +74,7 @@ public class RemoteConfig : MonoBehaviour
                 newData = true;
                 break;
         }
-        
+        finished = true;
     }
     public bool IsNewVersion()
     {
