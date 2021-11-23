@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public OnClick onClick;
     private void Awake()
     {
+        print(Application.version);
         if (onClick.clickAction == null)
         {
             onClick.clickAction = IncreaseScore;

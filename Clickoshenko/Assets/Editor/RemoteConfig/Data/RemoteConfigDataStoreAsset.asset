@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
+  m_Name: RemoteConfigDataStoreAsset
+  m_EditorClassIdentifier: 
+  rsKeyList:
+  - metadata:
+      entityId: 1cadd1b6-1063-4cb5-8526-90f4ecb60490
+    rs:
+      key: DownloadLink
+      type: string
+      value: http://rockinmyshoe.eu/en
+  - metadata:
+      entityId: 00a557db-0495-4cbf-867d-880a4fdfddc0
+    rs:
+      key: NewestVersion
+      type: string
+      value: 0.1
+  rsLastCachedKeyList:
+  - metadata:
+      entityId: 1cadd1b6-1063-4cb5-8526-90f4ecb60490
+    rs:
+      key: DownloadLink
+      type: string
+      value: http://rockinmyshoe.eu/en
+  - metadata:
+      entityId: 00a557db-0495-4cbf-867d-880a4fdfddc0
+    rs:
+      key: NewestVersion
+      type: string
+      value: 0.1
+  configId: 2427bd7e-b903-49b7-8b51-f58aac564cb4
+  currentEnvironmentId: e49420f2-b24b-4c0f-92ef-fc30b1b05764
+  environments:
+  - id: e49420f2-b24b-4c0f-92ef-fc30b1b05764
+    appId: 
+    name: production (Default)
+    description: 
+    createdAt: 2021-11-14T23:02:31Z
+    updatedAt: 2021-11-14T23:02:31Z
+  rulesList: []
+  lastCachedRulesList: []
+  addedRulesIDs: []
+  updatedRulesIDs: []
+  deletedRulesIDs: []
