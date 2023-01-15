@@ -27,10 +27,11 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     private void Awake()
     {
 #if UNITY_EDITOR
-        return;
-        #endif
-        Advertisement.Initialize(gameID, false, false, this);
-
+        //return;
+#endif
+        debug.text += "start Initialising";
+        Advertisement.Initialize(gameID, true, false, this);
+        
 
     }
     void Start()
@@ -40,8 +41,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
             instance = this;
         }
 
-        
+        debug.text += "start() add Listener";
         Advertisement.AddListener(this);
+        debug.text += "start() set banner pos";
         Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
         
     }
@@ -91,12 +93,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         Advertisement.Banner.Hide();
     }
 
-    IEnumerator BannerChecker()
-    {
-        yield return new WaitUntil(() => Advertisement.IsReady(bannerID));
-        ShowBanner();
-    }
-
     public void LoadBanner()
     {
         debug.text += "Banner start loading";
@@ -136,7 +132,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     public void OnUnityAdsDidError(string message)
     {
         print("ERROR " + message);
-        
+        debug.text += ("ERROR " + message);
+
+
     }
 
     public void OnUnityAdsDidStart(string placementId)
